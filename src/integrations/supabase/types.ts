@@ -14,7 +14,206 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      booking_participants: {
+        Row: {
+          booking_id: string
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          phone: string | null
+        }
+        Insert: {
+          booking_id: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          phone?: string | null
+        }
+        Update: {
+          booking_id?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          phone?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_participants_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      booking_services: {
+        Row: {
+          address: string | null
+          booking_id: string
+          city: string | null
+          configurations: Json | null
+          coordinates: string | null
+          created_at: string
+          customization_notes: string | null
+          duration: number | null
+          id: string
+          location_type: string | null
+          parlour_id: string | null
+          parlour_name: string | null
+          payment_status: string
+          postal_code: string | null
+          price: number
+          provider_id: string | null
+          provider_name: string | null
+          scheduled_time: string | null
+          service_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          booking_id: string
+          city?: string | null
+          configurations?: Json | null
+          coordinates?: string | null
+          created_at?: string
+          customization_notes?: string | null
+          duration?: number | null
+          id?: string
+          location_type?: string | null
+          parlour_id?: string | null
+          parlour_name?: string | null
+          payment_status?: string
+          postal_code?: string | null
+          price?: number
+          provider_id?: string | null
+          provider_name?: string | null
+          scheduled_time?: string | null
+          service_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          booking_id?: string
+          city?: string | null
+          configurations?: Json | null
+          coordinates?: string | null
+          created_at?: string
+          customization_notes?: string | null
+          duration?: number | null
+          id?: string
+          location_type?: string | null
+          parlour_id?: string | null
+          parlour_name?: string | null
+          payment_status?: string
+          postal_code?: string | null
+          price?: number
+          provider_id?: string | null
+          provider_name?: string | null
+          scheduled_time?: string | null
+          service_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_services_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_services_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bookings: {
+        Row: {
+          booking_id: string
+          created_at: string
+          customer_email: string
+          customer_id: string | null
+          customer_name: string
+          customer_notes: string | null
+          customer_phone: string | null
+          group_booking: boolean
+          id: string
+          notes: string | null
+          status: string
+          total_amount: number
+          updated_at: string
+        }
+        Insert: {
+          booking_id: string
+          created_at?: string
+          customer_email: string
+          customer_id?: string | null
+          customer_name: string
+          customer_notes?: string | null
+          customer_phone?: string | null
+          group_booking?: boolean
+          id?: string
+          notes?: string | null
+          status?: string
+          total_amount?: number
+          updated_at?: string
+        }
+        Update: {
+          booking_id?: string
+          created_at?: string
+          customer_email?: string
+          customer_id?: string | null
+          customer_name?: string
+          customer_notes?: string | null
+          customer_phone?: string | null
+          group_booking?: boolean
+          id?: string
+          notes?: string | null
+          status?: string
+          total_amount?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      providers: {
+        Row: {
+          business_name: string | null
+          created_at: string
+          email: string
+          id: string
+          name: string
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          business_name?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          business_name?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
