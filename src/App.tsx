@@ -8,6 +8,7 @@ import Index from "./pages/Index.tsx";
 import Auth from "./pages/Auth.tsx";
 import BookingDetails from "./pages/BookingDetails.tsx";
 import BarberDashboard from "./pages/BarberDashboard.tsx";
+import CustomerDashboard from "./pages/CustomerDashboard.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/my-bookings" element={<CustomerDashboard />} />
             <Route path="/bookings/:bookingId" element={<BookingDetails />} />
             <Route path="/dashboard" element={<BarberDashboard />} />
             <Route path="*" element={<NotFound />} />

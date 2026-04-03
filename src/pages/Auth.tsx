@@ -19,7 +19,7 @@ const Auth = () => {
   const [magicLinkSent, setMagicLinkSent] = useState(false);
 
   useEffect(() => {
-    if (user) navigate("/");
+    if (user) navigate("/my-bookings");
   }, [user, navigate]);
 
   const handleSignIn = async (e: React.FormEvent) => {
