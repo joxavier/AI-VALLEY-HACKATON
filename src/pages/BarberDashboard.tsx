@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,13 +14,35 @@ import {
 } from "@/components/ui/table";
 import {
   Scissors, DollarSign, TrendingUp, Calendar, Users,
-  LogOut, CreditCard, Clock, CheckCircle, XCircle, AlertCircle
+  LogOut, CreditCard, Clock, CheckCircle, XCircle, AlertCircle, RefreshCw
 } from "lucide-react";
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isWithinInterval } from "date-fns";
 
 const BarberDashboard = () => {
   const { user, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [syncing, setSyncing] = useState(false);
+
+  const handleSync = async () => {
+    setSyncing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("sync-google-sheets");
+      if (error) throw error;
+      toast.success(`Synced ${data.synced} of ${data.total} bookings`);
+      if (data.errors?.length > 0) {
+        console.warn("Sync errors:", data.errors);
+        toast.warning(`${data.errors.length} rows had issues`);
+      }
+      queryClient.invalidateQueries({ queryKey: ["provider-bookings"] });
+      queryClient.invalidateQueries({ queryKey: ["provider-services"] });
+    } catch (err) {
+      console.error("Sync failed:", err);
+      toast.error("Failed to sync from Google Sheets");
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -140,9 +163,15 @@ const BarberDashboard = () => {
               <p className="text-xs text-muted-foreground">{provider.business_name || "Service Provider"}</p>
             </div>
           </div>
-          <Button variant="ghost" size="sm" onClick={signOut}>
-            <LogOut className="mr-2 h-4 w-4" /> Sign Out
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={handleSync} disabled={syncing}>
+              <RefreshCw className={`mr-2 h-4 w-4 ${syncing ? "animate-spin" : ""}`} />
+              {syncing ? "Syncing…" : "Sync Sheets"}
+            </Button>
+            <Button variant="ghost" size="sm" onClick={signOut}>
+              <LogOut className="mr-2 h-4 w-4" /> Sign Out
+            </Button>
+          </div>
         </div>
       </header>
 
