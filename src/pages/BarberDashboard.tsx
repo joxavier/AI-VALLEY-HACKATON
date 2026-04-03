@@ -13,8 +13,8 @@ import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow
 } from "@/components/ui/table";
 import {
-  Scissors, DollarSign, TrendingUp, Calendar, Users,
-  LogOut, CreditCard, Clock, CheckCircle, XCircle, AlertCircle, RefreshCw
+  DollarSign, TrendingUp, Calendar,
+  LogOut, CreditCard, CheckCircle, AlertCircle, RefreshCw
 } from "lucide-react";
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isWithinInterval } from "date-fns";
 
@@ -135,9 +135,7 @@ const BarberDashboard = () => {
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card className="max-w-md w-full text-center">
           <CardContent className="pt-8 pb-6 space-y-4">
-            <div className="mx-auto w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
-              <Scissors className="w-7 h-7 text-primary" />
-            </div>
+            <img src="/metaparlour-logo.svg" alt="MetaParlour" className="mx-auto h-10" />
             <h2 className="text-xl font-semibold">Not a Provider</h2>
             <p className="text-muted-foreground text-sm">
               Your account is not registered as a service provider. Contact admin to get set up.
@@ -155,11 +153,9 @@ const BarberDashboard = () => {
       <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-              <Scissors className="h-5 w-5 text-primary" />
-            </div>
+            <img src="/metaparlour-logo.svg" alt="MetaParlour" className="h-7" />
             <div>
-              <h1 className="font-semibold text-lg leading-tight">{provider.name}</h1>
+              <h1 className="font-semibold text-lg leading-tight font-sans">{provider.name}</h1>
               <p className="text-xs text-muted-foreground">{provider.business_name || "Service Provider"}</p>
             </div>
           </div>
