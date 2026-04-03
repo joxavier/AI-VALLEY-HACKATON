@@ -72,7 +72,7 @@ Deno.serve(async (req) => {
 
     // Parse optional sheet range from query params
     const url = new URL(req.url);
-    const range = url.searchParams.get("range") || "Sheet1";
+    const range = url.searchParams.get("range") || "Sheet2";
 
     // Fetch data from Google Sheets
     const sheetsUrl = `${SHEETS_API_BASE}/${sheetId}/values/${encodeURIComponent(range)}?key=${apiKey}`;
