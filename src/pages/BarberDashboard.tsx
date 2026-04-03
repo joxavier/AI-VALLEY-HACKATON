@@ -21,6 +21,28 @@ import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isWithinInter
 const BarberDashboard = () => {
   const { user, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [syncing, setSyncing] = useState(false);
+
+  const handleSync = async () => {
+    setSyncing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("sync-google-sheets");
+      if (error) throw error;
+      toast.success(`Synced ${data.synced} of ${data.total} bookings`);
+      if (data.errors?.length > 0) {
+        console.warn("Sync errors:", data.errors);
+        toast.warning(`${data.errors.length} rows had issues`);
+      }
+      queryClient.invalidateQueries({ queryKey: ["provider-bookings"] });
+      queryClient.invalidateQueries({ queryKey: ["provider-services"] });
+    } catch (err) {
+      console.error("Sync failed:", err);
+      toast.error("Failed to sync from Google Sheets");
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   useEffect(() => {
     if (!authLoading && !user) {
