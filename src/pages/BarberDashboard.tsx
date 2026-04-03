@@ -13,8 +13,8 @@ import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow
 } from "@/components/ui/table";
 import {
-  Scissors, DollarSign, TrendingUp, Calendar, Users,
-  LogOut, CreditCard, Clock, CheckCircle, XCircle, AlertCircle, RefreshCw
+  DollarSign, TrendingUp, Calendar,
+  LogOut, CreditCard, CheckCircle, AlertCircle, RefreshCw
 } from "lucide-react";
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isWithinInterval } from "date-fns";
 
