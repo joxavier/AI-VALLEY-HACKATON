@@ -219,7 +219,8 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_auth_email: { Args: never; Returns: string }
+      is_booking_provider: { Args: { _booking_uuid: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
