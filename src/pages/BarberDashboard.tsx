@@ -135,9 +135,7 @@ const BarberDashboard = () => {
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card className="max-w-md w-full text-center">
           <CardContent className="pt-8 pb-6 space-y-4">
-            <div className="mx-auto w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
-              <Scissors className="w-7 h-7 text-primary" />
-            </div>
+            <img src="/metaparlour-logo.svg" alt="MetaParlour" className="mx-auto h-10" />
             <h2 className="text-xl font-semibold">Not a Provider</h2>
             <p className="text-muted-foreground text-sm">
               Your account is not registered as a service provider. Contact admin to get set up.
