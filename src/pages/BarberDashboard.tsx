@@ -300,9 +300,9 @@ const BarberDashboard = () => {
                           variant="outline"
                           className={`capitalize text-xs ${
                             service.payment_status === "paid"
-                              ? "bg-green-50 text-green-700 border-green-200"
+                              ? "bg-success/10 text-success border-success/30"
                               : service.payment_status === "unpaid"
-                              ? "bg-red-50 text-red-700 border-red-200"
+                              ? "bg-destructive/10 text-destructive border-destructive/30"
                               : ""
                           }`}
                         >
