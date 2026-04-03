@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/table";
 import {
   Scissors, DollarSign, TrendingUp, Calendar, Users,
-  LogOut, CreditCard, Clock, CheckCircle, XCircle, AlertCircle
+  LogOut, CreditCard, Clock, CheckCircle, XCircle, AlertCircle, RefreshCw
 } from "lucide-react";
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isWithinInterval } from "date-fns";
 
