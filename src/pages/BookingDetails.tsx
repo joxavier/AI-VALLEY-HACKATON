@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Calendar, Clock, MapPin, User, Phone, Mail, CreditCard,
-  Users, FileText, ArrowLeft, Building
+  Users, FileText, ArrowLeft, Building, Scissors
 } from "lucide-react";
 import { format } from "date-fns";
 
