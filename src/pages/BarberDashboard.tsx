@@ -153,11 +153,9 @@ const BarberDashboard = () => {
       <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-              <Scissors className="h-5 w-5 text-primary" />
-            </div>
+            <img src="/metaparlour-logo.svg" alt="MetaParlour" className="h-7" />
             <div>
-              <h1 className="font-semibold text-lg leading-tight">{provider.name}</h1>
+              <h1 className="font-semibold text-lg leading-tight font-sans">{provider.name}</h1>
               <p className="text-xs text-muted-foreground">{provider.business_name || "Service Provider"}</p>
             </div>
           </div>

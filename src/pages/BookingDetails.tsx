@@ -122,8 +122,7 @@ const BookingDetails = () => {
             <ArrowLeft className="mr-2 h-4 w-4" /> Back
           </Button>
           <div className="flex items-center gap-2">
-            <Scissors className="h-5 w-5 text-primary" />
-            <span className="font-semibold">MetaParlour</span>
+            <img src="/metaparlour-logo.svg" alt="MetaParlour" className="h-6" />
           </div>
         </div>
       </header>
