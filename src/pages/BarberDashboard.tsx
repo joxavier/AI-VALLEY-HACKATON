@@ -224,12 +224,89 @@ const BarberDashboard = () => {
           </Card>
         </div>
 
-        {/* Bookings Table */}
+        {/* Unassigned Bookings */}
+        {(() => {
+          const unassignedBookings = bookings?.filter(b => {
+            const services = allServices?.filter(s => s.booking_id === b.id) || [];
+            return services.some(s => !s.provider_id);
+          }) || [];
+          
+          if (unassignedBookings.length === 0) return null;
+          
+          const handleClaim = async (bookingUuid: string) => {
+            const servicesToClaim = allServices?.filter(
+              s => s.booking_id === bookingUuid && !s.provider_id
+            ) || [];
+            
+            for (const svc of servicesToClaim) {
+              await supabase
+                .from("booking_services")
+                .update({ provider_id: provider!.id, provider_name: provider!.name })
+                .eq("id", svc.id);
+            }
+            toast.success("Booking claimed!");
+            queryClient.invalidateQueries({ queryKey: ["provider-services"] });
+            queryClient.invalidateQueries({ queryKey: ["provider-bookings"] });
+          };
+          
+          return (
+            <Card className="border-primary/30 bg-primary/5">
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <AlertCircle className="h-5 w-5 text-primary" />
+                  Unassigned Bookings ({unassignedBookings.length})
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Booking ID</TableHead>
+                      <TableHead>Customer</TableHead>
+                      <TableHead>Service</TableHead>
+                      <TableHead>Scheduled</TableHead>
+                      <TableHead>Amount</TableHead>
+                      <TableHead></TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {unassignedBookings.map((booking) => {
+                      const svc = allServices?.find(s => s.booking_id === booking.id && !s.provider_id);
+                      return (
+                        <TableRow key={booking.id}>
+                          <TableCell className="font-mono text-sm">{booking.booking_id}</TableCell>
+                          <TableCell>
+                            <div>
+                              <p className="font-medium text-sm">{booking.customer_name}</p>
+                              <p className="text-xs text-muted-foreground">{booking.customer_email}</p>
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-sm">{svc?.service_id || "—"}</TableCell>
+                          <TableCell className="text-sm">
+                            {svc?.scheduled_time ? format(new Date(svc.scheduled_time), "dd MMM, HH:mm") : "—"}
+                          </TableCell>
+                          <TableCell className="font-medium">R{Number(booking.total_amount).toFixed(2)}</TableCell>
+                          <TableCell>
+                            <Button size="sm" onClick={() => handleClaim(booking.id)}>
+                              Claim
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          );
+        })()}
+
+        {/* All Bookings Table */}
         <Card>
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <Calendar className="h-5 w-5 text-primary" />
-              Bookings ({stats.totalBookings})
+              All Bookings ({stats.totalBookings})
             </CardTitle>
           </CardHeader>
           <CardContent>
