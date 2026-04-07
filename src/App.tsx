@@ -10,6 +10,7 @@ import BookingDetails from "./pages/BookingDetails.tsx";
 import BarberDashboard from "./pages/BarberDashboard.tsx";
 import CustomerDashboard from "./pages/CustomerDashboard.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import BlogDay0 from "./pages/BlogDay0.tsx";
 
 const queryClient = new QueryClient();
 
