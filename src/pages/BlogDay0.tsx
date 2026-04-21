@@ -96,23 +96,87 @@ const BlogDay0 = () => {
             <div className="w-[600px] h-[300px] bg-[radial-gradient(ellipse,hsl(38_70%_60%/0.12)_0%,transparent_70%)] blur-2xl rounded-full" />
           </div>
           <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_bottom,transparent_60%,hsl(var(--background))_100%)]" />
+// Social Share Component
+const SocialShare = ({ url, title }: { url: string; title: string }) => {
+  const [copied, setCopied] = useState(false);
 
-          <motion.div
-            className="relative z-10 max-w-3xl mx-auto"
-            initial="hidden"
-            animate="visible"
-            variants={stagger}
+  const shareLinks = [
+    {
+      name: "Instagram",
+      icon: InstagramIcon,
+      href: `https://www.instagram.com/`,
+      color: "hover:text-pink-500 hover:border-pink-500/50",
+    },
+    {
+      name: "LinkedIn",
+      icon: LinkedInIcon,
+      href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+      color: "hover:text-blue-600 hover:border-blue-600/50",
+    },
+    {
+      name: "X",
+      icon: XIcon,
+      href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
+      color: "hover:text-gray-900 hover:border-gray-900/50 dark:hover:text-white",
+    },
+    {
+      name: "TikTok",
+      icon: TikTokIcon,
+      href: `https://www.tiktok.com/`,
+      color: "hover:text-cyan-500 hover:border-cyan-500/50",
+    },
+    {
+      name: "Reddit",
+      icon: RedditIcon,
+      href: `https://www.reddit.com/submit?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`,
+      color: "hover:text-orange-600 hover:border-orange-600/50",
+    },
+    {
+      name: "Snapchat",
+      icon: SnapchatIcon,
+      href: `https://www.snapchat.com/`,
+      color: "hover:text-yellow-400 hover:border-yellow-400/50",
+    },
+  ];
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <Share2 className="h-4 w-4" />
+        <span>Share this post</span>
+      </div>
+      <div className="flex items-center gap-3 flex-wrap justify-center">
+        {shareLinks.map((platform) => (
+          <a
+            key={platform.name}
+            href={platform.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`w-10 h-10 rounded-full border border-border/50 bg-card/50 flex items-center justify-center transition-all duration-200 ${platform.color} hover:scale-110 hover:bg-card`}
+            aria-label={`Share on ${platform.name}`}
+            title={platform.name}
           >
-            {/* Back */}
-            <motion.button
-              variants={fadeUp}
-              onClick={() => navigate("/")}
-              className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm mb-10 group"
-            >
-              <ArrowLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
-              Back to Home
-            </motion.button>
-
+            <platform.icon className="h-5 w-5" />
+          </a>
+        ))}
+        <button
+          onClick={handleCopyLink}
+          className="w-10 h-10 rounded-full border border-border/50 bg-card/50 flex items-center justify-center transition-all duration-200 hover:text-primary hover:border-primary/50 hover:scale-110 hover:bg-card"
+          aria-label="Copy link"
+          title="Copy link"
+        >
+          {copied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+        </button>
+      </div>
+    </div>
+  );
+};
             {/* Meta badges */}
             <motion.div variants={fadeUp} className="flex items-center gap-4 mb-6">
               <span className="inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary">
