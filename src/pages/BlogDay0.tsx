@@ -143,10 +143,10 @@ const BlogDay0 = () => {
     description:
       "The beauty industry is worth over $500B globally. Yet independent stylists and parlour owners still run on fragmented tools. We're building Metaparlour to change that.",
     author: { "@type": "Organization", name: "Metaparlour" },
-    datePublished: "2026-03-07",
-    dateModified: "2026-03-07",
+    datePublished: "2026-04-21",
+    dateModified: "2026-04-21",
     publisher: { "@type": "Organization", name: "Metaparlour" },
-    image: "https://metaparlour.io/day0blog.jpeg",
+    image: "https://metaparlour.io/day0metaparlour.jpg",
   };
 
   const blogUrl = "https://metaparlour.io/blog/day-0";
@@ -207,7 +207,7 @@ const BlogDay0 = () => {
               </span>
               <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
                 <Calendar className="h-3 w-3" />
-                March 7, 2026
+                Apr 21, 2026
               </span>
             </motion.div>
 
@@ -239,7 +239,7 @@ const BlogDay0 = () => {
             <motion.div variants={fadeUp} className="mb-10">
               <div className="relative overflow-hidden rounded-xl border border-border/30 shadow-lg">
                 <img
-                  src="/day0blog.jpeg"
+                  src="/day0metaparlour.jpg"
                   alt="Day 0 - Building Metaparlour"
                   className="w-full aspect-[16/9] object-cover"
                   loading="lazy"
@@ -253,7 +253,7 @@ const BlogDay0 = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent pointer-events-none" />
               </div>
               <p className="text-center text-sm text-muted-foreground mt-3 italic">
-                The starting line. March 7, 2026.
+                The starting line. Apr 21, 2026.
               </p>
             </motion.div>
 
@@ -430,6 +430,14 @@ const BlogDay0 = () => {
 
           {/* Footer nav */}
           <div className="flex justify-between items-center">
+            <Button
+              variant="outline"
+              className="border-border/30 hover:bg-primary/5"
+              onClick={() => navigate("/blog")}
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to blogs
+            </Button>
             <Button
               variant="outline"
               className="border-border/30 hover:bg-primary/5"
