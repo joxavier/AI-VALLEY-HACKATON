@@ -237,14 +237,15 @@ const BlogDay0 = () => {
           >
             {/* Featured Image / Thumbnail */}
             <motion.div variants={fadeUp} className="mb-10">
-              <div className="relative overflow-hidden rounded-xl border border-border/30 shadow-lg">
+              <div className="relative overflow-hidden rounded-xl border border-border/30 shadow-lg max-w-3xl mx-auto">
                 <img
                   src="/day0metaparlour.jpg"
                   alt="Day 0 - Building Metaparlour"
-                  className="w-full aspect-[16/9] object-cover"
+                  className="w-full h-auto object-cover"
+                  style={{ aspectRatio: '1080/1197' }}
                   loading="lazy"
                   onError={(e) => {
-                    // Fallback if image doesn't exist
+                    // Fallback if image doesn&apos;t exist
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';
                     target.parentElement?.classList.add('hidden');
