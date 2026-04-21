@@ -243,10 +243,9 @@ const BlogDay0 = () => {
                   alt="Day 0 - Building Metaparlour"
                   className="w-full h-auto object-cover"
                   style={{ aspectRatio: '1080/1197' }}
-                />
                   loading="lazy"
                   onError={(e) => {
-                    // Fallback if image doesn't exist
+                    // Fallback if image doesn&apos;t exist
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';
                     target.parentElement?.classList.add('hidden');
