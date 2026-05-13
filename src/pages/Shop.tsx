@@ -1,10 +1,18 @@
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Calendar, MapPin, Users, Sparkles, ShoppingBag } from "lucide-react";
+import { ArrowLeft, Calendar, MapPin, Users, Sparkles, ShoppingBag, FilterX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface ExperienceEvent {
   id: number;
@@ -18,6 +26,7 @@ interface ExperienceEvent {
   nextSession: string;
   location: string;
   url: string;
+  type: "learning" | "retreat";
 }
 
 const events: ExperienceEvent[] = [
@@ -34,6 +43,7 @@ const events: ExperienceEvent[] = [
     nextSession: "2024-12-20",
     location: "Cape Town, South Africa",
     url: "events",
+    type: "learning",
   },
 ];
 
@@ -67,8 +77,8 @@ const EventCard = ({ event }: { event: ExperienceEvent }) => {
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent" />
-          <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground">
-            {event.level}
+          <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground capitalize">
+            {event.type}
           </Badge>
           <div className="absolute bottom-3 left-3 right-3 flex flex-wrap gap-2">
             <div className="flex items-center gap-1.5 bg-background/80 backdrop-blur px-2.5 py-1 rounded-md text-xs">
@@ -108,6 +118,30 @@ const EventCard = ({ event }: { event: ExperienceEvent }) => {
 
 const Shop = () => {
   const navigate = useNavigate();
+  const [locationFilter, setLocationFilter] = useState<string>("all");
+  const [typeFilter, setTypeFilter] = useState<string>("all");
+
+  const uniqueLocations = useMemo(
+    () => Array.from(new Set(events.map((e) => e.location))),
+    []
+  );
+
+  const filteredEvents = useMemo(() => {
+    return events.filter((event) => {
+      const matchLocation =
+        locationFilter === "all" || event.location === locationFilter;
+      const matchType =
+        typeFilter === "all" || event.type === typeFilter;
+      return matchLocation && matchType;
+    });
+  }, [locationFilter, typeFilter]);
+
+  const hasActiveFilters = locationFilter !== "all" || typeFilter !== "all";
+
+  const clearFilters = () => {
+    setLocationFilter("all");
+    setTypeFilter("all");
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -145,16 +179,64 @@ const Shop = () => {
           </TabsList>
 
           <TabsContent value="experiences">
-            {events.length === 0 ? (
+            <div className="flex flex-wrap items-center gap-4 mb-8">
+              <Select value={locationFilter} onValueChange={setLocationFilter}>
+                <SelectTrigger className="w-[220px]">
+                  <SelectValue placeholder="Filter by location" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All locations</SelectItem>
+                  {uniqueLocations.map((loc) => (
+                    <SelectItem key={loc} value={loc}>
+                      {loc}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select value={typeFilter} onValueChange={setTypeFilter}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Filter by type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All types</SelectItem>
+                  <SelectItem value="learning">Learning</SelectItem>
+                  <SelectItem value="retreat">Retreat</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {hasActiveFilters && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={clearFilters}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <FilterX className="h-4 w-4 mr-1" />
+                  Clear
+                </Button>
+              )}
+            </div>
+
+            {filteredEvents.length === 0 ? (
               <div className="text-center py-20">
                 <Calendar className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
                 <p className="text-muted-foreground text-lg">
-                  No experiences available at the moment.
+                  No experiences match your filters.
                 </p>
+                {hasActiveFilters && (
+                  <Button
+                    variant="outline"
+                    onClick={clearFilters}
+                    className="mt-4"
+                  >
+                    Reset filters
+                  </Button>
+                )}
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {events.map((event) => (
+                {filteredEvents.map((event) => (
                   <EventCard key={event.id} event={event} />
                 ))}
               </div>
