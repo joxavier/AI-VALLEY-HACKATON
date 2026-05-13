@@ -11,6 +11,7 @@ import BarberDashboard from "./pages/BarberDashboard.tsx";
 import CustomerDashboard from "./pages/CustomerDashboard.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import BlogDay0 from "./pages/BlogDay0.tsx";
+import Shop from "./pages/Shop.tsx";
 
 const queryClient = new QueryClient();
 
