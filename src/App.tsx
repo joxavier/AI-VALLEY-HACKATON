@@ -11,6 +11,7 @@ import BarberDashboard from "./pages/BarberDashboard.tsx";
 import CustomerDashboard from "./pages/CustomerDashboard.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import BlogDay0 from "./pages/BlogDay0.tsx";
+import Shop from "./pages/Shop.tsx";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/bookings/:bookingId" element={<BookingDetails />} />
             <Route path="/dashboard" element={<BarberDashboard />} />
             <Route path="/blog/day-0" element={<BlogDay0 />} />
+            <Route path="/shop" element={<Shop />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
