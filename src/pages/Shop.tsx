@@ -123,6 +123,22 @@ const EventCard = ({ event }: { event: ExperienceEvent }) => {
               R{event.price}
             </div>
           </div>
+
+          <div className="pt-2 space-y-2">
+            <Button
+              className="w-full"
+              onClick={handleBookNow}
+            >
+              Book Now
+            </Button>
+            <Button
+              variant={added ? "secondary" : "outline"}
+              className="w-full"
+              onClick={handleAddToCart}
+            >
+              {added ? "✓ Added to Cart" : "Add to Cart"}
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </motion.div>
