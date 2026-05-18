@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { toast } from "@/hooks/use-toast";
 import { ArrowLeft, Calendar, MapPin, Users, Sparkles, ShoppingBag, FilterX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -57,6 +58,18 @@ const formatDate = (iso: string) =>
 
 const EventCard = ({ event }: { event: ExperienceEvent }) => {
   const navigate = useNavigate();
+  const [added, setAdded] = useState(false);
+
+  const handleBookNow = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    window.open(`/shop/services/${event.url}`, "_blank");
+  };
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setAdded(true);
+    toast({ title: "Added to cart", description: event.title });
+  };
   return (
     <motion.div
       whileHover={{ y: -6 }}
@@ -109,6 +122,22 @@ const EventCard = ({ event }: { event: ExperienceEvent }) => {
             <div className="text-lg font-semibold text-primary">
               R{event.price}
             </div>
+          </div>
+
+          <div className="pt-2 space-y-2">
+            <Button
+              className="w-full"
+              onClick={handleBookNow}
+            >
+              Book Now
+            </Button>
+            <Button
+              variant={added ? "secondary" : "outline"}
+              className="w-full"
+              onClick={handleAddToCart}
+            >
+              {added ? "✓ Added to Cart" : "Add to Cart"}
+            </Button>
           </div>
         </CardContent>
       </Card>
