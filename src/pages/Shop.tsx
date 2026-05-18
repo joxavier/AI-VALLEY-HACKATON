@@ -58,6 +58,18 @@ const formatDate = (iso: string) =>
 
 const EventCard = ({ event }: { event: ExperienceEvent }) => {
   const navigate = useNavigate();
+  const [added, setAdded] = useState(false);
+
+  const handleBookNow = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    window.open(`/shop/services/${event.url}`, "_blank");
+  };
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setAdded(true);
+    toast({ title: "Added to cart", description: event.title });
+  };
   return (
     <motion.div
       whileHover={{ y: -6 }}
