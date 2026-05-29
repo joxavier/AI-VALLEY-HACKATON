@@ -441,9 +441,10 @@ const Shop = () => {
           </TabsContent>
 
           <TabsContent value="merch">
-            <div className="text-center py-20">
-              <ShoppingBag className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground text-lg">Merch coming soon.</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {merchProducts.map((p) => (
+                <ProductCard key={p.productId} product={p} />
+              ))}
             </div>
           </TabsContent>
         </Tabs>
