@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast } from "@/hooks/use-toast";
-import { ArrowLeft, Calendar, MapPin, Users, Sparkles, ShoppingBag, FilterX } from "lucide-react";
+import { ArrowLeft, Calendar, MapPin, Users, Sparkles, ShoppingBag, FilterX, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +14,165 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
+
+interface ProductAddition {
+  name: string;
+  description: string;
+  options: string[];
+}
+
+interface MerchProduct {
+  productId: string;
+  service?: string;
+  type: string;
+  name: string;
+  description: string;
+  image: string;
+  price: number;
+  additions: ProductAddition[];
+  associatedTags?: string[];
+}
+
+const merchProducts: MerchProduct[] = [
+  {
+    productId: "prod_TO1JOcXDlw62qN",
+    service: "",
+    type: "Products",
+    name: "Metaparlour Tracksuit",
+    description:
+      "The Metaparlour Tracksuit blends luxury comfort with modern design. Crafted from premium EcoTech™ fabric, it delivers a weighted cozy, structured fit made for movement and focus. Featuring 3D MP embroidery, and tapered lines — it's where wellness meets innovation. Unisex. Limited Edition.",
+    image: "/MPhoodie.png",
+    price: 220,
+    additions: [
+      {
+        name: "Size",
+        description: "Hoodies fit Regular",
+        options: ["Small", "Medium", "Large", "X-Large"],
+      },
+      {
+        name: "Pieces",
+        description: "Select your style",
+        options: ["Tracksuit", "Hoodie", "Joggers"],
+      },
+    ],
+    associatedTags: [],
+  },
+];
+
+const ProductCard = ({ product }: { product: MerchProduct }) => {
+  const [selections, setSelections] = useState<Record<string, string>>(() =>
+    product.additions.reduce(
+      (acc, a) => ({ ...acc, [a.name]: a.options[0] }),
+      {} as Record<string, string>,
+    ),
+  );
+  const [added, setAdded] = useState(false);
+
+  const handleAddToCart = () => {
+    const missing = product.additions.find((a) => !selections[a.name]);
+    if (missing) {
+      toast({
+        title: `Select a ${missing.name.toLowerCase()}`,
+        description: missing.description,
+      });
+      return;
+    }
+    setAdded(true);
+    toast({
+      title: "Added to cart",
+      description: `${product.name} — ${Object.entries(selections)
+        .map(([k, v]) => `${k}: ${v}`)
+        .join(", ")}`,
+    });
+  };
+
+  return (
+    <motion.div
+      whileHover={{ y: -6 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+    >
+      <Card className="group overflow-hidden border-border/60 bg-card hover:border-primary/60 transition-colors h-full flex flex-col">
+        <div className="relative aspect-square overflow-hidden bg-muted">
+          <img
+            src={product.image}
+            alt={product.name}
+            loading="lazy"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = "/placeholder.svg";
+            }}
+          />
+          <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground">
+            Limited
+          </Badge>
+        </div>
+
+        <CardContent className="p-5 space-y-4 flex-1 flex flex-col">
+          <div className="space-y-2">
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="text-xl tracking-wide group-hover:text-primary transition-colors">
+                {product.name}
+              </h3>
+              <div className="text-lg font-semibold text-primary whitespace-nowrap">
+                R{product.price}
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground line-clamp-3">
+              {product.description}
+            </p>
+          </div>
+
+          <div className="space-y-3 flex-1">
+            {product.additions.map((addition) => (
+              <div key={addition.name} className="space-y-1.5">
+                <div className="flex items-baseline justify-between">
+                  <label className="text-xs font-medium uppercase tracking-wider">
+                    {addition.name}
+                  </label>
+                  <span className="text-[10px] text-muted-foreground">
+                    {addition.description}
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {addition.options.map((opt) => {
+                    const active = selections[addition.name] === opt;
+                    return (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() =>
+                          setSelections((s) => ({ ...s, [addition.name]: opt }))
+                        }
+                        className={cn(
+                          "px-3 py-1.5 rounded-md text-xs border transition-colors",
+                          active
+                            ? "bg-primary text-primary-foreground border-primary"
+                            : "bg-background border-border hover:border-primary/60",
+                        )}
+                      >
+                        {active && <Check className="inline h-3 w-3 mr-1" />}
+                        {opt}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <Button
+            variant={added ? "secondary" : "default"}
+            className="w-full"
+            onClick={handleAddToCart}
+          >
+            {added ? "✓ Added to Cart" : "Add to Cart"}
+          </Button>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
+};
 
 interface ExperienceEvent {
   id: number;
