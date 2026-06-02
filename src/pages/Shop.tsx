@@ -147,13 +147,16 @@ const ProductCard = ({ product }: { product: MerchProduct }) => {
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {addition.options.map((opt) => {
-                    const active = selections[addition.name] === opt;
+                    const label = getOptionLabel(opt);
+                    const extraPrice =
+                      typeof opt === "object" && opt.price ? opt.price : 0;
+                    const active = selections[addition.name] === label;
                     return (
                       <button
-                        key={opt}
+                        key={label}
                         type="button"
                         onClick={() =>
-                          setSelections((s) => ({ ...s, [addition.name]: opt }))
+                          setSelections((s) => ({ ...s, [addition.name]: label }))
                         }
                         className={cn(
                           "px-3 py-1.5 rounded-md text-xs border transition-colors",
@@ -163,7 +166,10 @@ const ProductCard = ({ product }: { product: MerchProduct }) => {
                         )}
                       >
                         {active && <Check className="inline h-3 w-3 mr-1" />}
-                        {opt}
+                        {label}
+                        {extraPrice > 0 && (
+                          <span className="ml-1 opacity-75">+R{extraPrice}</span>
+                        )}
                       </button>
                     );
                   })}
