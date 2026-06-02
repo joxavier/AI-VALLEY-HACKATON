@@ -16,11 +16,22 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
+interface ProductOptionObject {
+  label: string;
+  price?: number;
+  priceId?: string;
+  includes?: string[];
+  inventory?: number;
+  fulfillmentSku?: string;
+}
+type ProductOption = string | ProductOptionObject;
 interface ProductAddition {
   name: string;
   description: string;
-  options: string[];
+  options: ProductOption[];
 }
+const getOptionLabel = (opt: ProductOption): string =>
+  typeof opt === "string" ? opt : opt.label;
 
 interface MerchProduct {
   productId: string;
@@ -63,7 +74,7 @@ const merchProducts: MerchProduct[] = [
 const ProductCard = ({ product }: { product: MerchProduct }) => {
   const [selections, setSelections] = useState<Record<string, string>>(() =>
     product.additions.reduce(
-      (acc, a) => ({ ...acc, [a.name]: a.options[0] }),
+      (acc, a) => ({ ...acc, [a.name]: getOptionLabel(a.options[0]) }),
       {} as Record<string, string>,
     ),
   );
@@ -136,13 +147,16 @@ const ProductCard = ({ product }: { product: MerchProduct }) => {
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {addition.options.map((opt) => {
-                    const active = selections[addition.name] === opt;
+                    const label = getOptionLabel(opt);
+                    const extraPrice =
+                      typeof opt === "object" && opt.price ? opt.price : 0;
+                    const active = selections[addition.name] === label;
                     return (
                       <button
-                        key={opt}
+                        key={label}
                         type="button"
                         onClick={() =>
-                          setSelections((s) => ({ ...s, [addition.name]: opt }))
+                          setSelections((s) => ({ ...s, [addition.name]: label }))
                         }
                         className={cn(
                           "px-3 py-1.5 rounded-md text-xs border transition-colors",
@@ -152,7 +166,10 @@ const ProductCard = ({ product }: { product: MerchProduct }) => {
                         )}
                       >
                         {active && <Check className="inline h-3 w-3 mr-1" />}
-                        {opt}
+                        {label}
+                        {extraPrice > 0 && (
+                          <span className="ml-1 opacity-75">+R{extraPrice}</span>
+                        )}
                       </button>
                     );
                   })}
