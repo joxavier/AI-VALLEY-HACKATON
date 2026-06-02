@@ -16,11 +16,22 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
+interface ProductOptionObject {
+  label: string;
+  price?: number;
+  priceId?: string;
+  includes?: string[];
+  inventory?: number;
+  fulfillmentSku?: string;
+}
+type ProductOption = string | ProductOptionObject;
 interface ProductAddition {
   name: string;
   description: string;
-  options: string[];
+  options: ProductOption[];
 }
+const getOptionLabel = (opt: ProductOption): string =>
+  typeof opt === "string" ? opt : opt.label;
 
 interface MerchProduct {
   productId: string;
