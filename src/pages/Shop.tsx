@@ -74,7 +74,7 @@ const merchProducts: MerchProduct[] = [
 const ProductCard = ({ product }: { product: MerchProduct }) => {
   const [selections, setSelections] = useState<Record<string, string>>(() =>
     product.additions.reduce(
-      (acc, a) => ({ ...acc, [a.name]: a.options[0] }),
+      (acc, a) => ({ ...acc, [a.name]: getOptionLabel(a.options[0]) }),
       {} as Record<string, string>,
     ),
   );
