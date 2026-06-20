@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
@@ -48,16 +47,14 @@ const sections = [
 ];
 
 const Landing = () => {
-  const navigate = useNavigate();
-
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* HEADER */}
       <header className="fixed top-0 w-full z-50 border-b border-border/30 bg-background/80 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <img src="/metaparlour-logo.svg" alt="MetaParlour" className="h-7" />
-          <Button size="sm" onClick={() => navigate("/")}>
-            Back to Home
+          <Button size="sm" asChild>
+            <a href="/">Back to Home</a>
           </Button>
         </div>
       </header>
@@ -122,10 +119,12 @@ const Landing = () => {
                 </p>
                 <Button
                   className="w-full group/btn"
-                  onClick={() => navigate(route)}
+                  asChild
                 >
-                  {cta}
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                  <a href={route}>
+                    {cta}
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                  </a>
                 </Button>
               </div>
             </motion.div>
