@@ -12,6 +12,7 @@ import CustomerDashboard from "./pages/CustomerDashboard.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import BlogDay0 from "./pages/BlogDay0.tsx";
 import Shop from "./pages/Shop.tsx";
+import Landing from "./pages/Landing.tsx";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/landing" element={<Landing />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/my-bookings" element={<CustomerDashboard />} />
             <Route path="/bookings/:bookingId" element={<BookingDetails />} />
