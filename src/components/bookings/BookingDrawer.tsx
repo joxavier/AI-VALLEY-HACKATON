@@ -136,7 +136,7 @@ export function BookingDrawer({ bookingId, onClose, onChange }: Props) {
 
   const applyAction = async () => {
     if (!confirmAction || !booking) return;
-    const patch: Record<string, string> = {};
+    const patch: { status?: string; payment_status?: string } = {};
     if (confirmAction.status) patch.status = confirmAction.status;
     if (confirmAction.payment) patch.payment_status = confirmAction.payment;
     const { error } = await supabase.from("bookings").update(patch).eq("id", booking.id);
