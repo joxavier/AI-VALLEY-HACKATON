@@ -13,6 +13,16 @@ import NotFound from "./pages/NotFound.tsx";
 import BlogDay0 from "./pages/BlogDay0.tsx";
 import Shop from "./pages/Shop.tsx";
 import Landing from "./pages/Landing.tsx";
+import DashboardLayout from "./pages/dashboard/Layout.tsx";
+import DashboardOverview from "./pages/dashboard/Overview.tsx";
+import BookingsPage from "./pages/dashboard/Bookings.tsx";
+import {
+  CalendarPage,
+  ClientsPage,
+  PaymentsPage,
+  ServicesPage,
+  SettingsPage,
+} from "./pages/dashboard/Placeholders.tsx";
 
 const queryClient = new QueryClient();
 
