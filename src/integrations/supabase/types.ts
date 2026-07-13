@@ -14,6 +14,82 @@ export type Database = {
   }
   public: {
     Tables: {
+      availability_blocks: {
+        Row: {
+          created_at: string
+          end_time: string
+          id: string
+          note: string | null
+          provider_id: string
+          reason: string
+          start_time: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          end_time: string
+          id?: string
+          note?: string | null
+          provider_id: string
+          reason?: string
+          start_time: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          end_time?: string
+          id?: string
+          note?: string | null
+          provider_id?: string
+          reason?: string
+          start_time?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "availability_blocks_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      booking_events: {
+        Row: {
+          booking_id: string
+          created_at: string
+          created_by: string | null
+          event_type: string
+          id: string
+          message: string | null
+        }
+        Insert: {
+          booking_id: string
+          created_at?: string
+          created_by?: string | null
+          event_type: string
+          id?: string
+          message?: string | null
+        }
+        Update: {
+          booking_id?: string
+          created_at?: string
+          created_by?: string | null
+          event_type?: string
+          id?: string
+          message?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_events_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       booking_participants: {
         Row: {
           booking_id: string
@@ -142,9 +218,12 @@ export type Database = {
           customer_name: string
           customer_notes: string | null
           customer_phone: string | null
+          deposit_amount: number
           group_booking: boolean
           id: string
           notes: string | null
+          payment_status: string
+          provider_notes: string | null
           status: string
           total_amount: number
           updated_at: string
@@ -157,9 +236,12 @@ export type Database = {
           customer_name: string
           customer_notes?: string | null
           customer_phone?: string | null
+          deposit_amount?: number
           group_booking?: boolean
           id?: string
           notes?: string | null
+          payment_status?: string
+          provider_notes?: string | null
           status?: string
           total_amount?: number
           updated_at?: string
@@ -172,9 +254,12 @@ export type Database = {
           customer_name?: string
           customer_notes?: string | null
           customer_phone?: string | null
+          deposit_amount?: number
           group_booking?: boolean
           id?: string
           notes?: string | null
+          payment_status?: string
+          provider_notes?: string | null
           status?: string
           total_amount?: number
           updated_at?: string
