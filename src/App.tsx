@@ -13,6 +13,16 @@ import NotFound from "./pages/NotFound.tsx";
 import BlogDay0 from "./pages/BlogDay0.tsx";
 import Shop from "./pages/Shop.tsx";
 import Landing from "./pages/Landing.tsx";
+import DashboardLayout from "./pages/dashboard/Layout.tsx";
+import DashboardOverview from "./pages/dashboard/Overview.tsx";
+import BookingsPage from "./pages/dashboard/Bookings.tsx";
+import {
+  CalendarPage,
+  ClientsPage,
+  PaymentsPage,
+  ServicesPage,
+  SettingsPage,
+} from "./pages/dashboard/Placeholders.tsx";
 
 const queryClient = new QueryClient();
 
@@ -29,7 +39,16 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/my-bookings" element={<CustomerDashboard />} />
             <Route path="/bookings/:bookingId" element={<BookingDetails />} />
-            <Route path="/dashboard" element={<BarberDashboard />} />
+            <Route path="/dashboard/legacy" element={<BarberDashboard />} />
+            <Route path="/dashboard" element={<DashboardLayout />}>
+              <Route index element={<DashboardOverview />} />
+              <Route path="bookings" element={<BookingsPage />} />
+              <Route path="calendar" element={<CalendarPage />} />
+              <Route path="clients" element={<ClientsPage />} />
+              <Route path="payments" element={<PaymentsPage />} />
+              <Route path="services" element={<ServicesPage />} />
+              <Route path="settings" element={<SettingsPage />} />
+            </Route>
             <Route path="/blog/day-0" element={<BlogDay0 />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="*" element={<NotFound />} />
