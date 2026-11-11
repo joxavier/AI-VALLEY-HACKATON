@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import PromoBanner from "@/components/PromoBanner";
 import { cn } from "@/lib/utils";
 
 interface ProductOptionObject {
@@ -376,6 +377,7 @@ const Shop = () => {
           </p>
         </motion.div>
 
+        <PromoBanner />
         <Tabs defaultValue="experiences" className="w-full">
           <TabsList className="mb-8">
             <TabsTrigger value="experiences">Experiences</TabsTrigger>
